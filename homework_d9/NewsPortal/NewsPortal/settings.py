@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     'sign',
     'protect',
+    'django_apscheduler',
 ]
 
 LOGIN_URL = '/accounts/login/'
@@ -60,7 +61,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 SITE_ID = 1
@@ -169,12 +170,12 @@ STATICFILES_DIRS = [
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'testpython81'
+EMAIL_HOST_PASSWORD = 'ngjilhgwelrkmgng'
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-# EMAIL_HOST_USER = 'testpython81'
-# EMAIL_HOST_PASSWORD = 'z4NCrbi3'
-# EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'testpython81@yandex.ru'
 
 SITE_URL = 'http://127.0.0.1:8000'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
