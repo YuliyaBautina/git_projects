@@ -1,0 +1,45 @@
+body {
+  padding-left: 11em;
+  font-family: Georgia, "Times New Roman",
+  Times, serif;
+color: #FDF5E6;
+background-image: url('board_background.jpg');
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size: cover}
+  ul.navbar {
+      list-style-type: none;
+        padding: 0;
+        margin: 0;
+    position: absolute;
+    top: 2em;
+    left: 1em;
+    width: 9em }
+  h1 {
+    font-family: Helvetica, Geneva, Arial,
+          SunSans-Regular, sans-serif }
+   ul.navbar li {
+    background: #FAEBD7;
+    margin: 0.5em 0;
+    padding: 0.3em;
+    border-right: 1em solid black }
+  ul.navbar a {
+    text-decoration: none }
+  a:link {
+    color: blue }
+  a:visited {
+    color: purple }
+div.container {
+  height: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center }
+ div.container1 {
+  display: flex;
+  justify-content: center }
+div.separator {
+  display: flex;
+  justify-content: center
+}
+
