@@ -1,7 +1,9 @@
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.mail import send_mail
 from django.views import View
 
+from NoticeBoard import settings
 from users.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -38,6 +40,12 @@ class AnnounceDetail(DetailView):
             replay.user = request.user
             replay.announce_id = post.pk
             replay.save()
+            send_mail(
+                subject='Получен отклик',
+                message=f'Здравствуйте! К вашему объявлению "{ post.title }" на сайте таверны "Копытом в рыло" оставлен отклик.',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[replay.announce.author.user.email]
+            )
             return redirect('announce_detail', pk=post.pk)
 
     def get_context_data(self, **kwargs):
@@ -95,18 +103,15 @@ class ReplyUpdate(LoginRequiredMixin, UpdateView):
     form_class = ReplyForm
     model = Reply
     template_name = 'reply_edit.html'
-    success_url = reverse_lazy('announce_list')
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     reply = self.get_object()
-    #     context = {'reply_id': reply.pk}
-    #     if reply.user_id != self.request.user_id:
-    #         return render(self.request, template_name='reply_lock.html', context=context)
-    #     return super(ReplyUpdate, self).dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse_lazy('announce_detail', kwargs={'pk': self.object.announce.pk})
 
 
 class ReplyDelete(DeleteView):
-    # permission_required = ('board.delete_post',)
     model = Reply
     template_name = 'reply_delete.html'
-    success_url = reverse_lazy('announce_list')
+
+    def get_success_url(self):
+        return reverse_lazy('announce_detail', kwargs={'pk': self.object.announce.pk})
+

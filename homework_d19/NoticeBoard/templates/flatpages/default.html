@@ -21,6 +21,9 @@
                 data-bs-toggle="dropdown" aria-expanded="false">
             {{ request.user }}
         </button>
+        <li>
+    <a class="dropdown-item dd-item-color" href="/users/profile/">Профиль</a>
+</li>
         <ul class="dropdown-menu dd-color">
             <li><a class="dropdown-item dd-item-color" href="{% url 'logout' %}">Выйти</a></li>
         </ul>
@@ -34,8 +37,8 @@
 
 <!-- Site navigation menu -->
         <ul class="navbar">
-          <li><a href="/board/">На главную страницу</a>
-          <li><a href="/board/create/">Создать объявление</a>
+          <li><a href="/">На главную страницу</a>
+          <li><a href="/create/">Создать объявление</a>
         </ul>
 
     <div class="section section-header">
