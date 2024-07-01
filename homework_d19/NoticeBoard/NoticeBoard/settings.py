@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'board',
+    'board.apps.BoardConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -54,7 +54,7 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = '/accounts/login/'
 # LOGIN_URL = '/board/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/users/profile/'
 LOGOUT_REDIRECT_URL = 'announce_list'
 
 ACCOUNT_EMAIL_REQUIRED = True

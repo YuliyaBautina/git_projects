@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, TemplateView, ListView
 from django_filters import FilterSet
 
-from board.models import Reply, Announce
+from board.models import Reply, Announce, Author
 from users.models import User
 
 

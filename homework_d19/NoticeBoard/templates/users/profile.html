@@ -17,8 +17,9 @@
 {% if comments %}
 {% for reply in comments %}
 <p>{{ reply.user }}</p>
-<p>{{ reply.text }}</p>
+<p>{{ reply.text }} <a href="{% url 'reply_author_delete' reply.id %}"class="btn">Удалить</a></p>
 {% endfor %}
 {% endif %}
+<br>
 <button> <a href="/logout/">Выйти</a></button>
 {% endblock content %}

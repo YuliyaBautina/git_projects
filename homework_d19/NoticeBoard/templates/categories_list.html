@@ -1,37 +1,38 @@
 {% extends 'flatpages/default.html' %}
 
 {% block title %}
-Board
+Объявления
 {% endblock title %}
 
 {% block content %}
 <h3> Всего объявлений: {{ page_obj.paginator.count }} </h3>
-<a href="/create/" class="btn btn-success btn-fill" >Создать объявление</a>
-{% if announce_board %}
+{% if is_not_subscriber %}
+<p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться на категорию {{ category }}</a></p>
+{% endif %}
+
+{% if category_announce_list %}
 <table>
     <tr>
-        <td width="150"><h4>Заголовок</h4></td>
-        <td width="150"><h4>Категория</h4></td>
-        <td width="150"><h4>Дата публикации</h4></td>
-        <td width="500"><h4>Предпросмотр</h4></td>
-        <td>К объявлению</td>
-        <td width="150"><h4>Автор</h4></td>
+        <td>Автор</td>
+        <td>Заголовок</td>
+        <td>Категория</td>
+        <td>Дата публикации</td>
+        <td>Текст</td>
     </tr>
-        {% for announce in announce_board %}
+    {% for announce in category_announce_list %}
     <tr>
+        <td> {{ announce.author }} </td>
         <td> {{ announce.title }} </td>
         <td> {% for category in announce.category.all %}
             <a href="{% url 'category_list' category.id %}"> {{ category }}</a>
             {% endfor %} </td>
         <td> {{ announce.date_time|date:'d.m.y' }} </td>
-        <td> {{ announce.text|safe|truncatechars:110 }} </td>
-        <td><a href="{% url 'announce_detail' announce.id %}" class="btn">Откликнуться</a></td>
-        <td> {{announce.author}} </td>
+        <td> {{ announce.text|safe|truncatechars:20 }} </td>
     </tr>
     {% endfor %}
 </table>
 {% else %}
-<h2>Пока никаких новостей нет, но скоро здесь будет интересно!</h2>
+<h2>Пока никаких объявлений нет, но скоро здесь будет интересно!</h2>
 {% endif %}
 
 {# Информация о предыдущих страницах #}

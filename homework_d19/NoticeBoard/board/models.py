@@ -18,6 +18,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories', through='Subscriber')
 
     def __str__(self):
         return self.name.title()
@@ -35,7 +36,7 @@ class Announce(models.Model):
         return f"{self.text[:124]}..."
 
     def __str__(self):
-        return f'{self.title.title()} {self.date_time} : {self.text[:20]}'
+        return f'{self.title.title()}'
 
     def get_absolute_url(self):
         return reverse('announce_detail', args=[str(self.id)])
@@ -54,6 +55,11 @@ class Reply(models.Model):
 
     def __str__(self):
         return self.text.title()
+
+
+class Subscriber(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 
