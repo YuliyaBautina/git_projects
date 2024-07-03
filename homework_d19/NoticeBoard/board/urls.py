@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
 from .views import AnnounceList, AnnounceDetail, AnnounceCreate, AnnounceUpdate, AnnounceDelete, LogoutView, \
-    ReplyUpdate, ReplyDelete, ReplyAuthorDelete, subscribe, CategoryList, upgrade_me
+    ReplyUpdate, ReplyDelete, ReplyAuthorDelete, subscribe, CategoryList, upgrade_me, accept
 
 urlpatterns = [
     path('', AnnounceList.as_view(), name='announce_list'),
@@ -17,5 +17,6 @@ urlpatterns = [
     path('author/<int:pk>/delete/', ReplyAuthorDelete.as_view(), name='reply_author_delete'),
     path('categories/<int:pk>', CategoryList.as_view(), name='category_list'),
     path('categories/<int:pk>/subscribe', subscribe, name='subscribe'),
-    path('upgrade/', upgrade_me, name='upgrade')
+    path('upgrade/', upgrade_me, name='upgrade'),
+    path('replies/<int:pk>/accept', accept, name='reply_accept'),
 ]

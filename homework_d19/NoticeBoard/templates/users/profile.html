@@ -17,7 +17,10 @@
 {% if comments %}
 {% for reply in comments %}
 <p>{{ reply.user }}</p>
-<p>{{ reply.text }} <a href="{% url 'reply_author_delete' reply.id %}"class="btn">Удалить</a></p>
+<p>{{ reply.text }} <a href="{% url 'reply_author_delete' reply.id %}"class="btn">Удалить</a>
+    {% if reply.is_accepted == False and reply.user.id is not request.user.id %}
+<a href="{% url 'reply_accept' reply.id %}" class="btn">Принять</a></p>
+{% endif %}
 {% endfor %}
 {% endif %}
 <br>

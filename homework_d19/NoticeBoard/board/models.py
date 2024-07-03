@@ -52,6 +52,7 @@ class Reply(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
     announce = models.ForeignKey(Announce, on_delete=models.CASCADE, verbose_name='Объявление')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.text.title()

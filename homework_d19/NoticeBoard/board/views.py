@@ -160,3 +160,19 @@ def upgrade_me(request):
     user = request.user
     Author.objects.create(user=user)
     return redirect('/')
+
+
+@login_required
+def accept(request, pk):
+    user_pk = Reply.objects.filter(id=pk)[0].user_id
+    user_email = User.objects.get(id=user_pk).email
+    reply = Reply.objects.filter(id=pk).update(is_accepted=True)
+    send_mail(
+        subject=f'Тут информация по вашему отклику',
+        message=f'Ваш отклик подтвержден автором объявления',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user_email],
+    )
+    response = redirect('profile')
+    return response
+
