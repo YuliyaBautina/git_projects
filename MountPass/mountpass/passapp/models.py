@@ -8,9 +8,6 @@ class MyUser(models.Model):
     otc = models.CharField(max_length=128)
     phone = models.IntegerField(unique=True)
 
-    def __str__(self):
-        return self.myUser.username
-
 
 class Coord(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8)
@@ -29,10 +26,10 @@ class Level(models.Model):
         ('3B*', '3Б*'),
 
     )
-    winter = models.CharField(max_length=3, choices=LEVEL, null=True, blank= True)
-    summer = models.CharField(max_length=3, choices=LEVEL, null=True, blank= True)
-    autumn = models.CharField(max_length=3, choices=LEVEL, null=True, blank= True)
-    spring = models.CharField(max_length=3, choices=LEVEL, null=True, blank= True)
+    winter = models.CharField(max_length=3, choices=LEVEL, null=True, blank=True)
+    summer = models.CharField(max_length=3, choices=LEVEL, null=True, blank=True)
+    autumn = models.CharField(max_length=3, choices=LEVEL, null=True, blank=True)
+    spring = models.CharField(max_length=3, choices=LEVEL, null=True, blank=True)
 
 
 class PerevalAdded(models.Model):
@@ -61,5 +58,5 @@ class PerevalAdded(models.Model):
 class Images(models.Model):
     pereval = models.ForeignKey(PerevalAdded, related_name='images', on_delete=models.CASCADE)
     title = models.CharField(max_length=128, null=True, blank=True)
-    image = models.ImageField(upload_to='/mountpass', null=True, blank=True)
+    image = models.ImageField(upload_to='mountpass/', null=True, blank=True)
 
