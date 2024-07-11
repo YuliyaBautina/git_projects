@@ -43,18 +43,18 @@ class MyUserSerializer(serializers.ModelSerializer):
             return new_user
 
     class Meta:
-        model = Users
+        model = MyUser
         fields = ['email', 'phone', 'fam', 'name', 'otc']
 
 
 class PerevalSerializer(WritableNestedModelSerializer):
-    user = UsersSerializer()
-    coords = CoordsSerializer()
+    user = MyUserSerializer()
+    coords = CoordSerializer()
     level = LevelSerializer()
     images = ImagesSerializer(many=True)
 
     class Meta:
-        model = Pereval
+        model = PerevalAdded
         fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect',
                   'add_time', 'status', 'user', 'coords', 'level', 'images']
         read_only_fields = ['status']
