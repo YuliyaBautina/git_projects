@@ -1,4 +1,4 @@
-from models import Coord, Level, PerevalAdded, Images, MyUser
+from .models import Coord, Level, PerevalAdded, Images, MyUser
 
 from drf_writable_nested import WritableNestedModelSerializer
 
@@ -48,16 +48,36 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 
 class PerevalSerializer(WritableNestedModelSerializer):
+    add_time = serializers.DateTimeField(format='%d-%m-%Y %H:%M:%S', read_only=True)
     user = MyUserSerializer()
     coords = CoordSerializer()
     level = LevelSerializer()
     images = ImagesSerializer(many=True)
+    status = serializers.CharField(read_only=True)
 
     class Meta:
         model = PerevalAdded
         fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect',
                   'add_time', 'status', 'user', 'coords', 'level', 'images']
         read_only_fields = ['status']
+
+    def create(self, validated_data, **kwargs):
+        user = validated_data.pop('user')
+        coords = validated_data.pop('coords')
+        level = validated_data.pop('level')
+        images = validated_data.pop('images')
+
+        user, created = MyUser.objects.get_or_create(**user)
+
+        coords = Coord.objects.create(**coords)
+        level = Level.objects.create(**level)
+        mountpass = PerevalAdded.objects.create(**validated_data, user=user, coords=coords, level=level, status='new')
+
+        for img in images:
+            image = img.pop('image')
+            title = img.pop('title')
+            Images.objects.create(image=image, pereval=mountpass, title=title)
+        return mountpass
 
     def validate(self, data):
         if self.instance:

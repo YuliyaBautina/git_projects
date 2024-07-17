@@ -6,7 +6,7 @@ class MyUser(models.Model):
     fam = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     otc = models.CharField(max_length=128)
-    phone = models.IntegerField(unique=True)
+    phone = models.CharField(max_length=128)
 
 
 class Coord(models.Model):
@@ -47,11 +47,11 @@ class PerevalAdded(models.Model):
     beauty_title = models.CharField(max_length=128, default="пер.")
     title = models.CharField(max_length=128)
     other_titles = models.CharField(max_length=128)
-    connect = models.CharField(max_length=128) #какие локации соединяет
+    connect = models.CharField(max_length=128, null=True, blank=True) #какие локации соединяет
     add_time = models.DateTimeField(auto_now_add=True)
-    coord_id = models.OneToOneField(Coord, on_delete=models.CASCADE, related_name='coords')
-    author_id = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='author')
-    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='NEW')
+    coords = models.OneToOneField(Coord, on_delete=models.CASCADE, related_name='coords')
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='user')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='NW')
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='level')
 
 
@@ -59,4 +59,7 @@ class Images(models.Model):
     pereval = models.ForeignKey(PerevalAdded, related_name='images', on_delete=models.CASCADE)
     title = models.CharField(max_length=128, null=True, blank=True)
     image = models.ImageField(upload_to='mountpass/', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
 

@@ -29,7 +29,7 @@ router.register(r'Image', views.ImageViewset, basename='image')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 
 ]
 
