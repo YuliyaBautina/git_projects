@@ -92,9 +92,5 @@ class PerevalSerializer(WritableNestedModelSerializer):
 
             ]
             if data_user and any(validating_user_fields):
-                raise serializers.ValidationError('Rejected: user data cannot be modified')
-            elif self.instance.status != data.get('status'):
-                raise serializers.ValidationError('Rejected: status cannot be modified')
-            elif self.instance.status != data.get('add_time'):
-                raise serializers.ValidationError('Rejected: add_time cannot be modified')
+                raise serializers.ValidationError('Отклонено: нельзя изменять данные пользователя')
         return data
