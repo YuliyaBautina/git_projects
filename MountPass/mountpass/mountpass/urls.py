@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from passapp import views
+from .yasg import urlpatterns as doc_urls
 
 
 router = routers.DefaultRouter()
@@ -33,3 +34,4 @@ urlpatterns = [
 
 ]
 
+urlpatterns += doc_urls
