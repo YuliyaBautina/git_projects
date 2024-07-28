@@ -115,7 +115,7 @@ class PerevalApiTestCase(APITestCase):
             },
             "images": [
                 {
-                    "data": 'http://lagonaki-otdyh.ru/azishkij-pereval-03.jpg',
+                    "image": 'http://lagonaki-otdyh.ru/azishkij-pereval-03.jpg',
                     "title": "some title"
                 }
             ],
@@ -129,48 +129,51 @@ class PerevalApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.passage_1.refresh_from_db()
         self.assertEqual('Перевал изменен', self.passage_1.beauty_title)
-        self.assertEqual('1a', self.passage_1.level.winter)
+        self.assertEqual('1A', self.passage_1.level.winter)
         self.assertEqual(1000, self.passage_1.coordinates.height)
 
-    # def test_user_update(self):
-    #     url = reverse("pereval-detail", args=(self.pereval_1.id,))
-    #     data = {
-    #         "id": 6,
-    #         "beauty_title": "perev.2",
-    #         "title": "123gora2",
-    #         "other_titles": "pereval2",
-    #         "connect": "connect2",
-    #         "user": {
-    #             "email": "try@try.ru",
-    #             "fam": "Изменено",
-    #             "name": "Изменено",
-    #             "otc": "Изменено",
-    #             "phone": "Изменено"
-    #         },
-    #         "coords": {
-    #             "latitude": "45.38420000",
-    #             "longitude": "7.15250000",
-    #             "height": 1200
-    #         },
-    #         "images": [
-    #             {
-    #                 "image": "https://www.yandex.ru/search.jpg",
-    #                 "title": "Седловина"
-    #             },
-    #             {
-    #                 "image": "https://www.yandex.ru/search.jpg",
-    #                 "title": "Подъём"
-    #             }
-    #         ],
-    #     }
-    #     json_data = json.dumps(data)
-    #     response = self.client.patch(path=url, content_type='application/json', data=json_data)
-    #     self.assertEquals(status.HTTP_200_OK, response.status_code)
-    #     self.pereval_1.refresh_from_db()
-    #     self.assertEquals("try@try.ru", self.pereval_1.user.email)
-    #     self.assertEquals("Петров", self.pereval_1.user.fam)
-    #     self.assertEquals("Петр", self.pereval_1.user.name)
-    #     self.assertEquals("Петрович", self.pereval_1.user.otc)
+    def test_get_list_email_arg(self):
+        response = self.client.get('/Pereval/?user__email=test@example.com')
+        serializer_data = PerevalSerializer([self.passage_1], many=True).data
+        self.assertEquals(response.data, serializer_data)
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEquals(len(response.data), 1)
+
+    def test_pereval_create(self):
+        url = reverse('pereval-list')
+        data = {
+            'user': {
+                'fam': 'hhhh',
+                'name': 'hhhh',
+                'otc': 'sdfgh',
+                'email': 'tqw@example.com',
+                'phone': '88888888888'
+            },
+            "coords": {
+                'latitude': 77,
+                'longitude': 567,
+                'height': 5879
+            },
+            "level": {
+                "winter": "1A",
+                "spring": "1A",
+                "summer": "1A",
+                "autumn": "1A"
+            },
+            "images": [
+                {
+                    "image": 'http://lagonaki-otdyh.ru/azishkij-pereval-03.jpg',
+                    "title": "dfgh"
+                }
+            ],
+            'beauty_title': 'dfgh',
+            'title': 'fghm',
+            'other_titles': 'ghjи',
+            'connect': 'cvbn'
+        }
+        json_data = json.dumps(data)
+        response = self.client.post(path=url, content_type='application/json', data=json_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # def test_pereval_update(self):
     #     url = reverse("pereval-detail", args=(self.pereval_1.id,))
